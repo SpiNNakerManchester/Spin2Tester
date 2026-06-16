@@ -118,11 +118,11 @@ jobs:
         covfile: unit
         n_threads: auto
 
-    - name: Run SpiNNMachine Unit Tests LIMITED
+    - name: Run SpiNNMachine Unit Tests Python 3.12
       id: spinnmachine-unit-tests
       uses: ./.github/actions/pytest_local
       with:
-        tests: SpiNNMachine2/unittests/test_machine.py
+        tests: SpiNNMachine2/unittests
         timeout: 1200
         results: SpiNNMachine
         covfile: unit
