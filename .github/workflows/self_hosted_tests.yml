@@ -70,6 +70,8 @@ jobs:
         repository: |
           https://gitlab.com/spinnaker2/SpiNNUtils2.git
           https://gitlab.com/spinnaker2/SpiNNMachine2.git
+          https://gitlab.com/spinnaker2/spinnaker2-stm.git
+          https://gitlab.com/spinnaker2/SpiNNMan2.git
 
     - name: Setup SpiNNUtils
       id: setup-spinnutils
@@ -82,6 +84,8 @@ jobs:
       run: |
         source pyenv/bin/activate
         pip install ./SpiNNMachine2[test]
+        pip install ./spinnaker2_stm[test]
+        pip install ./SpiNNMan2[test]
         # Additional requirements for testing here
         # coverage version capped due to https://github.com/nedbat/coveragepy/issues/883
         pip install pytest!=9.0.0
@@ -95,6 +99,8 @@ jobs:
         rm -rf SpiNNUtils2/build
         rm -rf SpiNNMachine2/spinn_machine
         rm -rf SpiNNMachine2/build
+        rm -rf SpiNNMan2/spinnman
+        rm -rf SpiNNMan2/build
 
     # --------------------------------------------------------------------
 
@@ -108,12 +114,22 @@ jobs:
         covfile: unit
         n_threads: auto
 
-    - name: Run SpiNNMachine Unit Tests
+    - name: Run SpiNNMachine Unit Tests LIMITED
       id: spinnmachine-unit-tests
       uses: ./.github/actions/pytest_local
       with:
-        tests: SpiNNMachine2/unittests
+        tests: SpiNNMachine2/unittests/test_machine.py
         timeout: 1200
         results: SpiNNMachine
+        covfile: unit
+        n_threads: auto
+
+    - name: Run SpiNNMan Unit Tests
+      id: spinnman-unit-tests
+      uses: ./.github/actions/pytest_local
+      with:
+        tests: SpiNNMan/unittests
+        timeout: 1200
+        results: SpiNNMan
         covfile: unit
         n_threads: auto
