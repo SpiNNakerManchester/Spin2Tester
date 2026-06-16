@@ -132,7 +132,7 @@ jobs:
       id: spinnman-unit-tests
       uses: ./.github/actions/pytest_local
       with:
-        tests: SpiNNMan/unittests
+        tests: SpiNNMan2/unittests
         timeout: 1200
         results: SpiNNMan
         covfile: unit
