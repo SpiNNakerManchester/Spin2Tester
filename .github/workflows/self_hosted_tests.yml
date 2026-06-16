@@ -84,7 +84,7 @@ jobs:
       run: |
         source pyenv/bin/activate
         pip install ./SpiNNMachine2[test]
-        pip install ./spinnaker2_stm[test]
+        pip install ./spinnaker2_stm
         pip install ./SpiNNMan2[test]
         # Additional requirements for testing here
         # coverage version capped due to https://github.com/nedbat/coveragepy/issues/883
