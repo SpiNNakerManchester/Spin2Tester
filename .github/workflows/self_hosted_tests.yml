@@ -30,7 +30,7 @@ jobs:
     # 24 * 60 minutes
     timeout-minutes: 1440
     container:
-        image: localhost:5000/python3.12:latest
+        image: localhost:5000/python3.12
     steps:
     - name: Checkout
       id: checkout
