@@ -35,7 +35,7 @@ runs:
           REPO=${REPOS[$i]}
           echo "Testing branch of $REPO"
           # for each pair $1 commit id and $2 full branch name
-          BRANCH=$(git ls-remote $REPO | awk '
+          BRANCH=$(git ls-remote --sort=v:refname $REPO | awk '
               BEGIN {
                   id = "x"
                   # The next line is a default signalling not found
