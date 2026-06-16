@@ -68,8 +68,8 @@ jobs:
       uses: ./.github/actions/clone_matching
       with:
         repository: |
-          https://github.com/SpiNNakerManchester/SpiNNUtils.git
-          https://github.com/SpiNNakerManchester/SpiNNMachine.git
+          https://gitlab.com/spinnaker2/SpiNNUtils2.git
+          https://gitlab.com/spinnaker2/SpiNNMachine2.git
 
     - name: Setup SpiNNUtils
       id: setup-spinnutils
