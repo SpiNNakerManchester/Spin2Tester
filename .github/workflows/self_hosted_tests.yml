@@ -75,13 +75,13 @@ jobs:
       id: setup-spinnutils
       run: |
         source pyenv/bin/activate
-        pip install ./SpiNNUtils[test]
+        pip install ./SpiNNUtils2[test]
 
     - name: Install Python Modules
       id: install-python-modules
       run: |
         source pyenv/bin/activate
-        pip install ./SpiNNMachine[test]
+        pip install ./SpiNNMachine2[test]
         # Additional requirements for testing here
         # coverage version capped due to https://github.com/nedbat/coveragepy/issues/883
         pip install pytest!=9.0.0
@@ -91,10 +91,10 @@ jobs:
     - name: Delete Install Sources
       id: delete-install-sources
       run: |
-        rm -rf SpiNNUtils/spinn_utilities
-        rm -rf SpiNNUtils/build
-        rm -rf SpiNNMachine/spinn_machine
-        rm -rf SpiNNMachine/build
+        rm -rf SpiNNUtils2/spinn_utilities
+        rm -rf SpiNNUtils2/build
+        rm -rf SpiNNMachine2/spinn_machine
+        rm -rf SpiNNMachine2/build
 
     # --------------------------------------------------------------------
 
@@ -102,7 +102,7 @@ jobs:
       id: spinnutils-unit-tests
       uses: ./.github/actions/pytest_local
       with:
-        tests: SpiNNUtils/unittests
+        tests: SpiNNUtils2/unittests
         timeout: 1200
         results: SpiNNUtils
         covfile: unit
@@ -112,7 +112,7 @@ jobs:
       id: spinnmachine-unit-tests
       uses: ./.github/actions/pytest_local
       with:
-        tests: SpiNNMachine/unittests
+        tests: SpiNNMachine2/unittests
         timeout: 1200
         results: SpiNNMachine
         covfile: unit
