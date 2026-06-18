@@ -46,11 +46,6 @@ runs:
                   # Full branch names of tags are in the format refs/tags/foobar
                   target_tag = "refs/tags/" ENVIRON["GITHUB_REF_NAME"]
               }
-              $2=="HEAD" {
-                  # Found the HEAD commit save its id to match below 
-                  # Note that the remote HEAD ref comes first
-                  id = $1
-              }
               $1==id {
                   # Find the full branch or tag name for the HEAD
                   # Strip out the start to leave the short branch name
@@ -58,6 +53,11 @@ runs:
                   branch = $2
                   id = "x"
                   # May be overwritten by the rule below; this is OK
+              }
+              $2=="HEAD" {
+                  # Found the HEAD commit save its id to match below 
+                  # Note that the remote HEAD ref comes first
+                  id = $1
               }
               $2==target_branch || $2==target_tag {
                   # Found a commit with a matching full branch or tag name
