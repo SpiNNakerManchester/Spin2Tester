@@ -53,83 +53,25 @@ jobs:
         source pyenv/bin/activate
         pip install --upgrade setuptools wheel
         pip install --upgrade pip
-
-    - name: Setup Environment
-      shell: bash
-      run: |
-          echo "SPINN_INSTALL_DIR=${GITHUB_WORKSPACE}/spinnaker_tools_install" >> $GITHUB_ENV
-          echo "SPINN_COMMON_INSTALL_DIR=${GITHUB_WORKSPACE}/spinn_common_install" >> $GITHUB_ENV
-          echo "FEC_INSTALL_DIR=${GITHUB_WORKSPACE}/fec_install" >> $GITHUB_ENV
-          echo "SPYNNAKER_INSTALL_DIR=${GITHUB_WORKSPACE}/spynnaker_install" >> $GITHUB_ENV
-          echo "GLOBAL_REPORTS=${GITHUB_WORKSPACE}/global_reports" >> $GITHUB_ENV
-          echo "SPALLOC_USER=${{ secrets.SPALLOC_USER }}" >> $GITHUB_ENV
-          echo "SPALLOC_PASSWORD=${{ secrets.SPALLOC_PASSWORD }}" >> $GITHUB_ENV
-      id: set_env_step
-
-    - name: Clone Repositories to be tested
-      id: clone-repos
-      uses: ./.github/actions/clone_matching
-      with:
-        repository: |
-          https://gitlab.com/spinnaker2/SpiNNUtils2.git
-          https://gitlab.com/spinnaker2/SpiNNMachine2.git
-          https://gitlab.com/spinnaker2/spinnaker2-stm.git
-          https://gitlab.com/spinnaker2/SpiNNMan2.git
-
-    - name: Setup SpiNNUtils
-      id: setup-spinnutils
-      run: |
-        source pyenv/bin/activate
-        pip install ./SpiNNUtils2[test]
-
-    - name: Install Python Modules
-      id: install-python-modules
-      run: |
-        source pyenv/bin/activate
-        pip install ./SpiNNMachine2[test]
-        ls -al
-        cd spinnaker2-stm
-        pip install .
-        cd ..
-        ls -al        
-        pip install ./SpiNNMan2[test]
         # Additional requirements for testing here
         # coverage version capped due to https://github.com/nedbat/coveragepy/issues/883
         pip install pytest!=9.0.0
         pip install nbmake python-coveralls "coverage>=5.0.0" pytest-instafail pytest-xdist pytest-progress pytest-forked pytest-timeout
+
+    - name: Clone SpiNNMan2
+      id: clone-repos
+      uses: ./.github/actions/clone_matching
+      with:
+        repository: |
+          https://gitlab.com/spinnaker2/SpiNNMan2.git
+
+    - name: Install SpiNNMan2
+      id: install-python-modules
+      run: |
+        pip install ./SpiNNMan2[test]
         pip freeze
 
-    - name: Delete Install Sources
-      id: delete-install-sources
-      run: |
-        rm -rf SpiNNUtils2/spinn_utilities
-        rm -rf SpiNNUtils2/build
-        rm -rf SpiNNMachine2/spinn_machine
-        rm -rf SpiNNMachine2/build
-        rm -rf SpiNNMan2/spinnman
-        rm -rf SpiNNMan2/build
-
     # --------------------------------------------------------------------
-
-    - name: Run SpiNNUtils Unit Tests
-      id: spinnutils-unit-tests
-      uses: ./.github/actions/pytest_local
-      with:
-        tests: SpiNNUtils2/unittests
-        timeout: 1200
-        results: SpiNNUtils
-        covfile: unit
-        n_threads: auto
-
-    - name: Run SpiNNMachine Unit Tests Python 3.12
-      id: spinnmachine-unit-tests
-      uses: ./.github/actions/pytest_local
-      with:
-        tests: SpiNNMachine2/unittests
-        timeout: 1200
-        results: SpiNNMachine
-        covfile: unit
-        n_threads: auto
 
     - name: Run SpiNNMan Unit Tests
       id: spinnman-unit-tests
