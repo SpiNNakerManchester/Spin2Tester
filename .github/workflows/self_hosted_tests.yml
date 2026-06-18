@@ -68,6 +68,7 @@ jobs:
     - name: Install SpiNNMan2
       id: install-python-modules
       run: |
+        source pyenv/bin/activate
         pip install ./SpiNNMan2[test]
         pip freeze
 
